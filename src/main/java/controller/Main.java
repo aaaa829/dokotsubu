@@ -21,8 +21,8 @@ public class Main extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		ServletContext application = request.getServletContext();
-		List<Mutter> mutterList = (List<Mutter>)application.getAttribute("MutterList");
+		ServletContext application = this.getServletContext();
+		List<Mutter> mutterList = (List<Mutter>)application.getAttribute("mutterList");
 		
 		if(mutterList == null) {
 			mutterList = new ArrayList<>();
