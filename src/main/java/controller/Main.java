@@ -14,10 +14,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import model.Mutter;
+import model.PostMutterLogic;
 import model.User;
-/**
- * Servlet implementation class Main
- */
 @WebServlet("/Main")
 public class Main extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -43,7 +41,26 @@ public class Main extends HttpServlet {
 	}
 	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+		request.setCharacterEncoding("UTF-8");
+		String text = request.getParameter("text");
+		
+		if(text != null && text.length() != 0) {
+			
+			ServletContext application = this.getServletContext();
+			List<Mutter> mutterList = (List<Mutter>)application.getAttribute("mutterList");
+			
+			HttpSession session = request.getSession();
+			User loginUser = (User)session.getAttribute("loginUser");
+			
+			Mutter mutter = new Mutter(loginUser.getName(),text);
+			PostMutterLogic pml = new PostMutterLogic();
+			pml.execute(mutter, mutterList);
+			
+			application.setAttribute("mutterList", mutterList);
+			
+			RequestDispatcher rd = request.getRequestDispatcher("WEB-INF/view/main.jsp");
+			rd.forward(request, response);
+		}
 	}
 
 }
