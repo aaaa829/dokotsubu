@@ -51,7 +51,6 @@ public class Main extends HttpServlet {
 			
 			HttpSession session = request.getSession();
 			User loginUser = (User)session.getAttribute("loginUser");
-			
 			Mutter mutter = new Mutter(loginUser.getName(),text);
 			PostMutterLogic pml = new PostMutterLogic();
 			pml.execute(mutter, mutterList);
